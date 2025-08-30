@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./App/Config/db.js";
 import cookieParser from "cookie-parser";
+import client from "./App/Config/redis.js";
+import AuthRouter from "./App/routes/AuthRoutes.js";
 
 dotenv.config();
-connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -12,10 +13,24 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/user", AuthRouter);
+
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! Day 2");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const redisClient = client;
+const InitalizeConnection = async () => {
+  try {
+    await Promise.all([connectDB(), redisClient.connect()]);
+    console.log("DB Connected");
+
+    app.listen(process.env.PORT, () => {
+      console.log("Server listening at port number: " + process.env.PORT);
+    });
+  } catch (err) {
+    console.log("Error: " + err);
+  }
+};
+
+InitalizeConnection();
