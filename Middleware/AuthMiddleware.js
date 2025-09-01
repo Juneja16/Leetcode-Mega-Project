@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import client from "../App/Config/redis";
-import User from "../App/Model/UserModel";
+import client from "../App/Config/redis.js";
+import User from "../App/Model/UserModel.js";
 dotenv.config();
 
 const AuthMiddlewarefxn = async (req, res, next) => {

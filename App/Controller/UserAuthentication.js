@@ -18,13 +18,14 @@ const Register = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
+      role: "user",
     });
 
     const userResponse = await newUser.save();
 
     // token expired time in seconds
     const token = jwt.sign(
-      { id: userResponse._id, email: email },
+      { id: userResponse._id, email: email, role: userResponse.role },
       process.env.JWT_SECRET,
       {
         expiresIn: 365 * 24 * 60 * 60,
@@ -63,7 +64,7 @@ const Login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: email },
+      { id: user._id, email: email ,role: user.role},
       process.env.JWT_SECRET,
       {
         expiresIn: 365 * 24 * 60 * 60,
@@ -76,7 +77,7 @@ const Login = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "User logged in successfully!",
+      message: `${user.role} logged in successfully!`,
       status: true,
       user,
     });
@@ -116,3 +117,50 @@ const Logout = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// admin Register 
+// Admin cant be registered normally like that of a user
+// Admins need to be created by a super admin
+// and that Super Admin has been registered directly from database or before creating the Routes 
+// That Super admin confirmation in admin Middleware 
+// and then that admin will be created on AdminRegister Route
+const adminRegister = async (req, res) => {
+  try {
+    validate(req.body);
+    const { firstName, lastName, email, password } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newAdmin = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role: "admin",
+    });
+
+    const adminResponse = await newAdmin.save();
+
+    const token = jwt.sign(
+      { id: adminResponse._id, email: email, role: adminResponse.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 365 * 24 * 60 * 60,
+      }
+    );
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(201).json({
+      message: "Admin registered successfully!",
+      status: true,
+      adminResponse,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export { Register, Login, Logout, adminRegister };

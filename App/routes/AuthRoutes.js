@@ -1,36 +1,41 @@
 import express from "express";
-import AuthMiddlewarefxn from "../../Middleware/AuthMiddleware";
+import AuthMiddlewarefxn from "../../Middleware/AuthMiddleware.js";
+import adminMiddleware from "../../Middleware/AdminMiddleware.js";
+import { adminRegister, Login, Logout, Register } from "../Controller/UserAuthentication.js";
 
 const AuthRouter = express.Router();
 
 // Register
-AuthRouter.post("/register", register);
+AuthRouter.post("/register", Register);
 
 // Login
-AuthRouter.post("/login", login);
+AuthRouter.post("/login", Login);
 
 // Logout
-AuthRouter.post("/logout", AuthMiddlewarefxn, logout);
+AuthRouter.post("/logout", AuthMiddlewarefxn, Logout);
 
-// Forgot Password
-AuthRouter.post("/forgot-password", forgotPassword);
+// adminRegister
+AuthRouter.post('/admin/register', adminMiddleware, adminRegister);
 
-// Reset Password
-AuthRouter.post("/reset-password", resetPassword);
+// // Forgot Password
+// AuthRouter.post("/forgot-password", forgotPassword);
 
-// Verify Email
-AuthRouter.post("/verify-email", verifyEmail);
+// // Reset Password
+// AuthRouter.post("/reset-password", resetPassword);
 
-// Get User Profile
-AuthRouter.get("/profile", getUserProfile);
+// // Verify Email
+// AuthRouter.post("/verify-email", verifyEmail);
 
-// Update User Profile
-AuthRouter.put("/profile", updateUserProfile);
+// // Get User Profile
+// AuthRouter.get("/profile", getUserProfile);
 
-// Delete User Account
-AuthRouter.delete("/profile", deleteUserAccount);
+// // Update User Profile
+// AuthRouter.put("/profile", updateUserProfile);
 
-// Google Sign-In
-AuthRouter.post("/google-signin", googleSignIn);
+// // Delete User Account
+// AuthRouter.delete("/profile", deleteUserAccount);
+
+// // Google Sign-In
+// AuthRouter.post("/google-signin", googleSignIn);
 
 export default AuthRouter;
