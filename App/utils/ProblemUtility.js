@@ -1,0 +1,88 @@
+import axios from "axios";
+
+// we want to get the ID of the Language to submit it in Judge0
+const getIDbyLanguageName = (lang) => {
+  const language = {
+    "c++": 54,
+    java: 62,
+    javascript: 63,
+  };
+
+  return language[lang.toLowerCase()];
+};
+
+const submitBatch = async (submissions) => {
+  // options object store the data that is necessary to make the API call
+  // it create the method type , JJudge0 Submission URL, our api Key and host and the submissions offcourse
+
+  const options = {
+    method: "POST",
+    url: "https://judge0-ce.p.rapidapi.com/submissions/batch",
+    params: {
+      base64_encoded: "true",
+    },
+    headers: {
+      "x-rapidapi-key": "2f5169e7dbmsheef371765f42e94p10aba4jsnc31e9f490a19",
+      "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+      "Content-Type": "application/json",
+    },
+    data: {
+      submissions: submissions,
+    },
+  };
+
+  async function fetchData() {
+    try {
+      const response = await axios.request(options);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return await fetchData();
+};
+
+const waiting = async (timer) => {
+  setTimeout(() => {
+    return 1;
+  }, timer);
+};
+
+const submitToken = async (resultToken) => {
+  const options = {
+    method: "GET",
+    url: "https://judge0-ce.p.rapidapi.com/submissions/batch",
+    params: {
+      tokens: resultToken,
+      base64_encoded: "true",
+      fields: "*",
+    },
+    headers: {
+      "x-rapidapi-key": "2f5169e7dbmsheef371765f42e94p10aba4jsnc31e9f490a19",
+      "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+    },
+  };
+
+  async function fetchData() {
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  while (true) {
+    const result = await fetchData();
+
+    const IsResultObtained = result.submissions.every((r) => r.status_id > 2);
+
+    if (IsResultObtained) return result.submissions;
+
+    await waiting(1000);
+  }
+};
+
+export { getIDbyLanguageName, submitBatch, submitToken };
