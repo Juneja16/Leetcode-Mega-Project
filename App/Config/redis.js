@@ -1,6 +1,6 @@
 import { createClient } from "redis";
 import dotenv from "dotenv";
-dotenv
+dotenv.config();
 
 const client = createClient({
   username: "default",

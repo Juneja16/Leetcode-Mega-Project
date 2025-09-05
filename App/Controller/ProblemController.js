@@ -1,6 +1,10 @@
-import { getIDbyLanguageName, submitBatch } from "../utils/ProblemUtility";
+import {
+  getIDbyLanguageName,
+  submitBatch,
+  submitToken,
+} from "../Utils/problemUtility.js";
 
-const createUser = async (req, res) => {
+const createProblem = async (req, res) => {
   // we have to get the details of the Problem from req.body
   const {
     title,
@@ -44,6 +48,8 @@ const createUser = async (req, res) => {
       // getting the Language ID
       const LanguageId = getIDbyLanguageName(language);
 
+      // Making the test cases combined with the CompleteCode and language
+      // to make it according to the Judge0 API format
       const submissions = visibleTestCases.map(async ({ input, output }) => ({
         source_code: completeCode,
         language_id: LanguageId,
@@ -65,7 +71,7 @@ const createUser = async (req, res) => {
       // send the Proper Response to the admin that Reference Solution is Wrong
       for (const test of testResult) {
         if (test.status_id != 3) {
-          return res.status(400).send("Error Occured");
+          return res.status(400).send("Error Occurred");
         }
       }
       // We can store it in our DB
@@ -80,3 +86,4 @@ const createUser = async (req, res) => {
     return res.status(500).json({ message: "Error occurred while processing" });
   }
 };
+export { createProblem };

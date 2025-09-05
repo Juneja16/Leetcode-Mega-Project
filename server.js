@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./App/Config/db.js";
 import cookieParser from "cookie-parser";
 import client from "./App/Config/redis.js";
-import AuthRouter from "./App/routes/AuthRoutes.js";
+import AuthRouter from "./App/routes/UserRoutes.js";
 import ProblemRouter from "./App/routes/ProblemRoutes.js";
 dotenv.config();
 

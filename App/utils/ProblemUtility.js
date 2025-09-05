@@ -4,8 +4,8 @@ import axios from "axios";
 const getIDbyLanguageName = (lang) => {
   const language = {
     "c++": 54,
-    java: 62,
-    javascript: 63,
+    "java": 62,
+    "javascript": 63,
   };
 
   return language[lang.toLowerCase()];
@@ -19,7 +19,7 @@ const submitBatch = async (submissions) => {
     method: "POST",
     url: "https://judge0-ce.p.rapidapi.com/submissions/batch",
     params: {
-      base64_encoded: "true",
+      base64_encoded: "false",
     },
     headers: {
       "x-rapidapi-key": "2f5169e7dbmsheef371765f42e94p10aba4jsnc31e9f490a19",
@@ -55,7 +55,7 @@ const submitToken = async (resultToken) => {
     url: "https://judge0-ce.p.rapidapi.com/submissions/batch",
     params: {
       tokens: resultToken,
-      base64_encoded: "true",
+      base64_encoded: "false",
       fields: "*",
     },
     headers: {

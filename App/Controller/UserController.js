@@ -1,8 +1,8 @@
-import User from "../Model/UserModel.js";
+import User from "../Model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import validate from "../utils/validator.js";
+import { validate, loginValidate } from "../Utils/userValidator.js";
 import client from "../Config/redis.js";
 dotenv.config();
 
@@ -50,21 +50,21 @@ const Register = async (req, res) => {
 
 const Login = async (req, res) => {
   try {
-    validate(req.body);
+    loginValidate(req.body);
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
       throw new Error("User not found");
     }
-
+    console.log(password, user.password);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
 
     const token = jwt.sign(
-      { id: user._id, email: email ,role: user.role},
+      { id: user._id, email: email, role: user.role },
       process.env.JWT_SECRET,
       {
         expiresIn: 365 * 24 * 60 * 60,
@@ -99,7 +99,7 @@ const Logout = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    
+
     const payload = jwt.decode(token);
 
     await client.set(`token:${token}`, "Blocked");
@@ -118,11 +118,11 @@ const Logout = async (req, res) => {
   }
 };
 
-// admin Register 
+// admin Register
 // Admin cant be registered normally like that of a user
 // Admins need to be created by a super admin
-// and that Super Admin has been registered directly from database or before creating the Routes 
-// That Super admin confirmation in admin Middleware 
+// and that Super Admin has been registered directly from database or before creating the Routes
+// That Super admin confirmation in admin Middleware
 // and then that admin will be created on AdminRegister Route
 const adminRegister = async (req, res) => {
   try {

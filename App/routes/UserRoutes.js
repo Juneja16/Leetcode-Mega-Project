@@ -1,7 +1,7 @@
 import express from "express";
-import AuthMiddlewarefxn from "../../Middleware/AuthMiddleware.js";
-import adminMiddleware from "../../Middleware/AdminMiddleware.js";
-import { adminRegister, Login, Logout, Register } from "../Controller/UserAuthentication.js";
+import AuthMiddlewarefxn from "../../Middleware/authMiddleware.js";
+import adminMiddleware from "../../Middleware/adminMiddleware.js";
+import { adminRegister, Login, Logout, Register } from "../Controller/UserController.js";
 
 const AuthRouter = express.Router();
 
