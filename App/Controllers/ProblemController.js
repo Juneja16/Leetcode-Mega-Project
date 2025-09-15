@@ -1,5 +1,4 @@
 import {
-  getIDbyLanguageName,
   getLanguageById,
   submitBatch,
   submitToken,
@@ -220,11 +219,13 @@ const deleteProblem = async (req, res) => {
   }
 };
 
-const getProblem = async (req, res) => {
+const getProblemById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const problem = await Problem.findById(id);
+    const problem = await Problem.findById(id).select(
+      "title description difficultyLevel tags "
+    );
 
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
@@ -234,15 +235,25 @@ const getProblem = async (req, res) => {
       .status(200)
       .json({ message: "Problem retrieved successfully", problem });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error occurred while retrieving problem", error });
+    console.error("Error in getProblemByID:", error); // full stack in server logs
+
+    return res.status(500).json({
+      message: "Something went wrong while fetching the problem",
+      error: {
+        name: error.name, // e.g., ValidationError, CastError, MongoError
+        message: error.message, // human-readable message
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+        details: error.errors || null, // mongoose validation errors if any
+      },
+    });
   }
 };
 
 const getAllProblems = async (req, res) => {
   try {
-    const problems = await Problem.find();
+    const problems = await Problem.find().select(
+      "title description difficultyLevel tags"
+    );
     res
       .status(200)
       .json({ message: "Problems retrieved successfully", problems });
@@ -257,6 +268,6 @@ export {
   createProblem,
   updateProblem,
   deleteProblem,
-  getProblem,
+  getProblemById,
   getAllProblems,
 };

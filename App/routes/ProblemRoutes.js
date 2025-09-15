@@ -1,21 +1,23 @@
 import express from "express";
-import { createProblem } from "../Controllers/ProblemController.js";
+import { createProblem, deleteProblem, getAllProblems,  getProblemById,  updateProblem } from "../Controllers/ProblemController.js";
+import adminMiddleware from "../../Middleware/AdminMiddleware.js";
+import authMiddleware from "../../Middleware/authMiddleware.js";
 const ProblemRouter = express.Router();
 
 // Create the Problem
-ProblemRouter.post("/createProblem", createProblem);
+ProblemRouter.post("/createProblem",adminMiddleware, createProblem);
 
-// // Update Problem
-// ProblemRouter.put("/updateProblem/:id", updateProblem);
+// Update Problem
+ProblemRouter.put("/updateProblem/:id", adminMiddleware,updateProblem);
 
-// // Delete problem
-// ProblemRouter.delete("/deleteProblem/:id", deleteProblem);
+// Delete problem
+ProblemRouter.delete("/deleteProblem/:id", adminMiddleware,deleteProblem);
 
-// // Get all problems
-// ProblemRouter.get("/getAllProblems", getAllProblems);
+// Get all problems
+ProblemRouter.get("/getAllProblems",authMiddleware, getAllProblems);
 
-// // Get a single problem
-// ProblemRouter.get("/getProblem/:id", getProblem);
+// Get a single problem
+ProblemRouter.get("/getProblem/:id", authMiddleware,getProblemById);
 
 // // Get problems by user
 // ProblemRouter.get("/getProblemsByUser/:userId", getProblemsByUser);

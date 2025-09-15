@@ -5,6 +5,7 @@ import client from "./App/Config/redis.js";
 import cookieParser from "cookie-parser";
 import AuthRouter from "./App/routes/UserRoutes.js";
 import ProblemRouter from "./App/routes/ProblemRoutes.js";
+import SubmitRouter from "./App/Routes/SubmissionRoutes.js";
 dotenv.config({ quiet: true });
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cookieParser());
 
 app.use("/user", AuthRouter);
 app.use("/problem", ProblemRouter);
+app.use('/submit',SubmitRouter)
 
 app.get("/", (req, res) => {
   res.send("Hello World! Day 2");

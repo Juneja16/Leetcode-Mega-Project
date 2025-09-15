@@ -4,7 +4,7 @@ import client from "../App/Config/redis.js";
 import User from "../App/Models/User.js";
 dotenv.config({ quiet: true });
 
-const AuthMiddlewarefxn = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   // Get token from cookies
   const token = req.cookies.token;
   if (!token) {
@@ -38,4 +38,4 @@ const AuthMiddlewarefxn = async (req, res, next) => {
   }
 };
 
-export default AuthMiddlewarefxn;
+export default authMiddleware;
