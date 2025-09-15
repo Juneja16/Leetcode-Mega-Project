@@ -1,14 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./App/Config/db.js";
-import cookieParser from "cookie-parser";
 import client from "./App/Config/redis.js";
+import cookieParser from "cookie-parser";
 import AuthRouter from "./App/routes/UserRoutes.js";
 import ProblemRouter from "./App/routes/ProblemRoutes.js";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,8 +22,13 @@ app.get("/", (req, res) => {
 const redisClient = client;
 const initalizeConnection = async () => {
   try {
+    //Parallel connection = faster startup (instead of connecting sequentially).
+    // Runs MongoDB connection (connectDB()) and Redis connection (redisClient.connect()) in parallel.
+
+    // If both succeed ✅ → execution continues.
     await Promise.all([connectDB(), redisClient.connect()]);
-    console.log("DB Connected");
+    console.log("Mongo DB Connected");
+    console.log("Redis connected");
 
     app.listen(process.env.PORT, () => {
       console.log("Server listening at port number: " + process.env.PORT);

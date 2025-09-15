@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import client from "../App/Config/redis.js";
-import User from "../App/Model/User.js";
-dotenv.config();
+import User from "../App/Models/User.js";
+dotenv.config({ quiet: true });
 
 const AuthMiddlewarefxn = async (req, res, next) => {
   // Get token from cookies

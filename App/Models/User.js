@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      // required:[true,message];
+      // This will generate the error message as we provided so that it will  be easily
+      // debuggable if error comes from this end
+      // Specifying correctly that error came from this end
       required: [true, "Email is required"],
       unique: true,
     },

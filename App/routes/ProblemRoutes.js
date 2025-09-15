@@ -1,5 +1,5 @@
 import express from "express";
-import { createProblem } from "../Controller/ProblemController.js";
+import { createProblem } from "../Controllers/ProblemController.js";
 const ProblemRouter = express.Router();
 
 // Create the Problem

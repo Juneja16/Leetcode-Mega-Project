@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import client from "../App/Config/redis.js";
+import User from "../App/Models/User.js";
 
 // Now we want to confirm that the user is a super admin before allowing the creation of a new admin
 const adminMiddleware = async (req, res, next) => {
@@ -9,8 +10,8 @@ const adminMiddleware = async (req, res, next) => {
   }
 
   const payload = jwt.decode(token);
-  const User = await User.findById(payload.id);
-  if (!User || User.role !== "super-admin") {
+  const userfound = await User.findById(payload.id);
+  if (!userfound || userfound.role !== "super-admin") {
     return res.status(403).json({ message: "Forbidden" });
   }
 
@@ -19,7 +20,7 @@ const adminMiddleware = async (req, res, next) => {
   if (isBlacklisted) {
     return res.status(403).json({ message: "Forbidden" });
   }
-
+  req.kk = userfound;
   next();
 };
 

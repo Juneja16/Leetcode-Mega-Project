@@ -1,7 +1,12 @@
 import express from "express";
 import AuthMiddlewarefxn from "../../Middleware/authMiddleware.js";
 import adminMiddleware from "../../Middleware/adminMiddleware.js";
-import { adminRegister, Login, Logout, Register } from "../Controller/UserController.js";
+import {
+  adminRegister,
+  Login,
+  Logout,
+  Register,
+} from "../Controllers/UserController.js";
 
 const AuthRouter = express.Router();
 
@@ -15,7 +20,7 @@ AuthRouter.post("/login", Login);
 AuthRouter.post("/logout", AuthMiddlewarefxn, Logout);
 
 // adminRegister
-AuthRouter.post('/admin/register', adminMiddleware, adminRegister);
+AuthRouter.post("/admin/register", adminMiddleware, adminRegister);
 
 // // Forgot Password
 // AuthRouter.post("/forgot-password", forgotPassword);

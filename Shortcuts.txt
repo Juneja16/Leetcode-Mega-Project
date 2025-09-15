@@ -1,0 +1,33 @@
+###  Shortcuts to Improve Coding Experience in VS Code 
+1. Move Whole Line (Up/Down)
+   Alt + ↑ 
+   Alt + ↓ 
+
+2.Duplicate a Line(Up/Down)
+  Shift + Alt + ↓   
+
+3.Column / Multi-Cursor Editing
+Ctrl + Alt + ↑/↓
+
+4.Copies/moves your selection (Self Created For My Vs Code )
+Ctrl + Shift + Alt + ↓
+
+✅😊😂
+5. To add these Ticks,Smilies to your Line 
+ Win + .
+
+6.Shut Copilot
+ a..  Command Palette (F1 or Ctrl+Shift+P) → type:   GitHub Copilot: Enable  For Enabling
+                                                     GitHub Copilot: Disable For Disabling
+                                      Choose Enable Globally or Enable for Current Workspace.
+                                      Secondly to Open Copilot Chat :::  Ctrl+Alt+I
+
+b..  Or go to Extensions sidebar (Ctrl+Shift+X) → Copilot → ⚙️ → Enable. 
+
+7. To quickly Open the Terminal (1/2)
+  Ctrl +J /// Ctrl +`
+
+8. To Make one only screen to code 
+   Ctrl+B  
+
+9. To quickly open the File in the next page ::Ctrl+Enter   

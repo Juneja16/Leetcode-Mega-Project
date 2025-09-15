@@ -1,10 +1,10 @@
-import User from "../Model/User.js";
+import User from "../Models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { validate, loginValidate } from "../Utils/userValidator.js";
 import client from "../Config/redis.js";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const Register = async (req, res) => {
   try {
