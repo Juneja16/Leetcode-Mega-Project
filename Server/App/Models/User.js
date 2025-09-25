@@ -46,9 +46,13 @@ const userSchema = new mongoose.Schema(
       maxlength: [100, "Password cannot exceed 100 characters"],
     },
     problemsSolved: {
-      type: Number,
-      default: 0,
-      min: [0, "Problems solved cannot be negative"],
+      type: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: "Problem",
+        },
+      ],
+      unique: true,
     },
   },
   {

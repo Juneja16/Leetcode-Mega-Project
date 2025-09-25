@@ -264,10 +264,60 @@ const getAllProblems = async (req, res) => {
   }
 };
 
+const getTotalProblemsSolved = async (req, res) => {
+  // const totalProblemSolved = req.user.problemsSolved.length;
+  try {
+    const totalProblemSolved = req.user.problemsSolved.length;
+    res.status(200).send({
+      message: "Total Problems Solved by the User : ",
+      status: true,
+      totalProblemSolved,
+    });
+  } catch {
+    console.error("Error while Fetching Total Problems Solved by User");
+    res.status(500).send({
+      message: "Something went Wrong in Fetching the Count",
+      error: {
+        name: error.name, // e.g., ValidationError, CastError, MongoError
+        message: error.message, // human-readable message
+        details: error.errors || null, // mongoose validation errors if any
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      },
+    });
+  }
+};
+
+const getProblemsByUser = async (req, res) => {
+  try {
+    const problemSolved = await req.user.populate({
+      path: "problemsSolved",
+      select: "title difficultyLevel tags",
+    });
+    res.status(200).send({
+      message: " Problems Solved by the User : ",
+      status: true,
+      problemSolved,
+    });
+  } catch {
+    console.error("Error while Fetching Total Problems Solved by User");
+    res.status(500).send({
+      message: "Something went Wrong in Fetching the Count",
+      error: {
+        name: error.name, // e.g., ValidationError, CastError, MongoError
+        message: error.message, // human-readable message
+        details: error.errors || null, // mongoose validation errors if any
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      },
+    });
+  }
+};
+
 export {
   createProblem,
   updateProblem,
   deleteProblem,
   getProblemById,
   getAllProblems,
+  getTotalProblemsSolved,
+  getProblemsByUser,
 };
