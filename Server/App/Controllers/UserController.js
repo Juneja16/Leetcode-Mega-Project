@@ -118,6 +118,12 @@ const Logout = async (req, res) => {
   }
 };
 
+const Check = async (req, res) => {
+  res
+    .status(201)
+    .json({ message: "Token Verified Successfully", status: true.req.user });
+};
+
 // admin Register
 // Admin cant be registered normally like that of a user
 // Admins need to be created by a super admin
@@ -163,4 +169,4 @@ const adminRegister = async (req, res) => {
   }
 };
 
-export { Register, Login, Logout, adminRegister };
+export { Register, Login, Logout, Check, adminRegister };

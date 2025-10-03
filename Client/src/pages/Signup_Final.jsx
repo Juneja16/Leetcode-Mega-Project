@@ -3,6 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const signupSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(20, "First name must be under 20 characters"),
+  lastName: z
+    .string()
+    .min(1, "First name is required")
+    .max(20, "First name must be under 20 characters"),
   email: z.string().min(1, "Email is required").email("Invalid email format"),
   password: z
     .string()
@@ -13,7 +21,7 @@ const signupSchema = z.object({
     .regex(/[@$!%*?&]/, "Password must contain at least one special character"),
 });
 
-function Login() {
+function Signup() {
   const {
     register,
     handleSubmit,
@@ -22,6 +30,8 @@ function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
+
+    // Backend data ko send kar dena chaiye?
   };
 
   return (
@@ -36,6 +46,39 @@ function Login() {
           {/* Centered title */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Existing form fields */}
+            <div className="form-control">
+              <label className="label mb-1">
+                <span className="label-text">First Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="John"
+                className={`input input-bordered ${
+                  errors.firstName && "input-error"
+                }`}
+                {...register("firstName")}
+              />
+              {errors.firstName && (
+                <span className="text-error">{errors.firstName.message}</span>
+              )}
+            </div>
+
+            <div className="form-control">
+              <label className="label mb-1">
+                <span className="label-text">Last Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="John"
+                className={`input input-bordered ${
+                  errors.lastName && "input-error"
+                }`}
+                {...register("lastName")}
+              />
+              {errors.lastName && (
+                <span className="text-error">{errors.last.message}</span>
+              )}
+            </div>
 
             <div className="form-control  mt-4">
               <label className="label mb-1">
@@ -45,9 +88,9 @@ function Login() {
                 type="email"
                 placeholder="john@example.com"
                 className={`input input-bordered ${
-                  errors.emailId && "input-error"
+                  errors.email && "input-error"
                 }`}
-                {...register("emailId")}
+                {...register("email")}
               />
               {errors.emailId && (
                 <span className="text-error">{errors.emailId.message}</span>
@@ -73,7 +116,7 @@ function Login() {
 
             <div className="form-control mt-6 flex justify-center">
               <button type="submit" className="btn btn-primary">
-                Login
+                Sign Up
               </button>
             </div>
           </form>
@@ -83,4 +126,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

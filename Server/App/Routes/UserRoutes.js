@@ -6,6 +6,7 @@ import {
   Login,
   Logout,
   Register,
+  Check
 } from "../Controllers/UserController.js";
 
 const AuthRouter = express.Router();
@@ -18,6 +19,9 @@ AuthRouter.post("/login", Login);
 
 // Logout
 AuthRouter.post("/logout", AuthMiddlewarefxn, Logout);
+
+// check
+AuthRouter.post("/check", AuthMiddlewarefxn, Check);
 
 // adminRegister
 AuthRouter.post("/admin/register", adminMiddleware, adminRegister);

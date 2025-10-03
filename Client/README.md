@@ -1,16 +1,34 @@
-# React + Vite
+1. Use Vite Bundler For Super Fast Dev Enviournment
+   a. npm create vite@latest
+   b. Choose Javascript
+   c. Choose React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+2. Setting up Daisy UI and tailwind css with Vite
+   a.npm install tailwindcss@latest @tailwindcss/vite@latest daisyui@latest
+   b. Merge vite.config.js File with this
 
-Currently, two official plugins are available:
+   import { defineConfig } from 'vite';
+   import tailwindcss from '@tailwindcss/vite';
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   export default defineConfig({
+   plugins: [
+   tailwindcss()
+   ],
+   });
 
-## React Compiler
+   c. Remove old content from index.css and Add 
+     @import "tailwindcss";
+     @plugin "daisyui";
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. Installing React Hook Form to create Forms with less work
+   npm i react-hook-form
 
-## Expanding the ESLint configuration
+4. Installing Zod and @reacthook Form Resolver to connect ZOD with RHK
+   a. npm i zod
+   b. npm install @hookform/resolvers
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+5. Install React-router Library so that we can use Browser Router From it
+   npm i react-router
+
+6. Installing React-redux and @reduxjs/toolkit
+   npm i react-redux @reduxjs/toolkit
