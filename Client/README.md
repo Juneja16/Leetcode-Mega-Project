@@ -16,9 +16,9 @@
    ],
    });
 
-   c. Remove old content from index.css and Add 
-     @import "tailwindcss";
-     @plugin "daisyui";
+   c. Remove old content from index.css and Add
+   @import "tailwindcss";
+   @plugin "daisyui";
 
 3. Installing React Hook Form to create Forms with less work
    npm i react-hook-form
@@ -32,3 +32,5 @@
 
 6. Installing React-redux and @reduxjs/toolkit
    npm i react-redux @reduxjs/toolkit
+
+7. Install axios to make API Request to Backend Easily
