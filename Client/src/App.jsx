@@ -8,6 +8,7 @@ import { checkAuth } from "./store/authSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "./Components/Loading";
+import NotFound from "./pages/NotFoundPage";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -46,6 +47,7 @@ function App() {
         path="/signup"
         element={isAuthenticated ? <Navigate to="/" /> : <Signup />}
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
