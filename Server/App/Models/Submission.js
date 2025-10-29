@@ -55,6 +55,32 @@ const submissionSchema = new Schema(
 );
 
 submissionSchema.index({ userId: 1, problemId: 1 });
+/* The index { userId: 1, problemId: 1 } means:
+
+We are indexing by userId in ascending order (1) and then by problemId in ascending order.
+
+This index is beneficial for queries that:
+
+Filter by userId alone (because the index starts with userId)
+
+Filter by both userId and problemId (compound fields)
+
+Without Index:
+MongoDB performs collection scan (checks every document)
+
+O(n) complexity - gets slower as submissions grow
+
+With 100,000 submissions: 100,000 checks
+
+With Index:
+MongoDB uses index seek
+
+O(log n) complexity - much faster
+
+With 100,000 submissions: ~17 checks (log2(100,000))
+
+
+*/
 
 const Submission = mongoose.model("submission", submissionSchema);
 

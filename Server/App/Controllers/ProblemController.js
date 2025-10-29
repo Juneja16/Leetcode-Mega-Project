@@ -7,62 +7,15 @@ import Problem from "../Models/Problem.js";
 
 const createProblem = async (req, res) => {
   // we have to get the details of the Problem from req.body
-  const {
-    title,
-    description,
-    difficultyLevel,
-    tags,
-    visibleTestCases,
-    hiddenTestCases,
-    starterCode,
-    referenceSolution,
-    problemCreator,
-  } = req.body;
-  const requiredFields = {
-    title,
-    description,
-    difficultyLevel,
-    tags,
-    visibleTestCases,
-    hiddenTestCases,
-    starterCode,
-    referenceSolution,
-    problemCreator,
-  };
-
-  //Now before saving the problem we need to validate the data
-  if (
-    !title ||
-    !description ||
-    !difficultyLevel ||
-    !tags ||
-    !visibleTestCases ||
-    !hiddenTestCases ||
-    !starterCode ||
-    !referenceSolution ||
-    !problemCreator
-  ) {
-    const missingFields = Object.entries(requiredFields)
-      .filter(
-        ([key, value]) => !value || (Array.isArray(value) && value.length === 0)
-      )
-      .map(([key]) => key);
-
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        message: "Missing required fields",
-        missing: missingFields,
-      });
-    }
-  }
+  const { visibleTestCases, referenceSolution } = req.body;
 
   // Now Checking the Reference Solution with the TestCases Provided wrt all the Languages
   // Using Judge0 API For that
 
   try {
-    // I want to the check the Complete Code (Solution of Problem) against all the Visible Testacases
-    // for all the Languages with the help of Judge 0
-    // For this I want to make the Data align in that Format which can be submitted to Jusge0
+    // I want to the check the Complete Code (Solution of Problem) against all the Visible Testcases
+    // for all the Languages with the help of Judge0
+    // For this I want to make the Data align in that Format which can be submitted to Judge0
     //source_code
     // LanguageID
     //stdin
@@ -70,7 +23,7 @@ const createProblem = async (req, res) => {
     for (const { language, completeCode } of referenceSolution) {
       // getting the Language ID
       const LanguageId = getLanguageById(language);
-      console.log("LanguageId Fetched :", LanguageId);
+      // console.log("LanguageId Fetched :", LanguageId);
 
       // Making the test cases combined with the CompleteCode and language
       // to make it according to the Judge0 API format
@@ -80,16 +33,16 @@ const createProblem = async (req, res) => {
         stdin: input,
         expected_output: output,
       }));
-      console.log("Check out submissions::::   ", submissions);
+      // console.log("Check out submissions::::   ", submissions);
       // we get an array of Objects which contain tokens for the Specific TestCase
       const submissionResult = await submitBatch(submissions);
-      console.log("Check out submissionResult::::   ", submissionResult);
+      // console.log("Check out submissionResult::::   ", submissionResult);
 
       const resultToken = submissionResult.map((result) => result.token);
       // we want to get the actual result obtained for the test case by verifying those token with the help of
       // get request and finally get the final response
       const testResult = await submitToken(resultToken);
-      console.log("Check out testResult::::   ", testResult);
+      // console.log("Check out testResult::::   ", testResult);
 
       // Now checking if any of the test case got Runtime Error or Wrong Answer we
       // send the Proper Response to the admin that Reference Solution is Wrong
@@ -223,8 +176,12 @@ const getProblemById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const problem = await Problem.findById(id).select(
-      "title description difficultyLevel tags "
+    // const problem = await Problem.findById(id).select(
+    //   "title description difficultyLevel tags "
+    // );
+    const problem = await Problem.findById(
+      id,
+      "title description difficultyLevel tags"
     );
 
     if (!problem) {
@@ -312,6 +269,38 @@ const getProblemsByUser = async (req, res) => {
   }
 };
 
+const getProblemSubmissions = async (req, res) => {
+  const problemId = req.params.id;
+  const userId = req.user._id;
+  try {
+    const allSubmissions = await Submission.find({ userId, problemId });
+
+    // Check if array is empty (length === 0)
+    if (!allSubmissions || allSubmissions.length === 0) {
+      return res.status(200).json({ 
+        message: "No submissions found for this problem",
+        submissions: [] // Always return consistent structure
+      });
+    }
+
+    return res.status(200).json({
+      message: "Submissions retrieved successfully",
+      count: allSubmissions.length,
+      submissions: allSubmissions,
+    });
+  } catch (error) {
+    console.error("Error in running code:", error.message);
+    res.status(500).send({
+      message: "Something went wrong while running the code",
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      },
+    });
+  }
+};
+
 export {
   createProblem,
   updateProblem,
@@ -320,4 +309,5 @@ export {
   getAllProblems,
   getTotalProblemsSolved,
   getProblemsByUser,
+  getProblemSubmissions,
 };
