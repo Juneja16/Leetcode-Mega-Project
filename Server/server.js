@@ -3,19 +3,21 @@ import dotenv from "dotenv";
 import connectDB from "./App/Config/db.js";
 import client from "./App/Config/redis.js";
 import cookieParser from "cookie-parser";
-import AuthRouter from "./App/routes/UserRoutes.js";
-import ProblemRouter from "./App/routes/ProblemRoutes.js";
+import AuthRouter from "./App/Routes/UserRoutes.js";
+import ProblemRouter from "./App/Routes/ProblemRoutes.js";
 import SubmitRouter from "./App/Routes/SubmissionRoutes.js";
+import configureCors from "./App/Config/cors.config.js";
 dotenv.config({ quiet: true });
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(configureCors());
 
 app.use("/user", AuthRouter);
 app.use("/problem", ProblemRouter);
-app.use('/submit',SubmitRouter)
+app.use("/submit", SubmitRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World! Day 2");
