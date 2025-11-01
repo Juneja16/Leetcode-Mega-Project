@@ -1,27 +1,28 @@
 import express from "express";
-import AuthMiddlewarefxn from "../../Middleware/authMiddleware.js";
+import authMiddleware from "../../Middleware/authMiddleware.js";
 import adminMiddleware from "../../Middleware/adminMiddleware.js";
 import {
   adminRegister,
   Login,
   Logout,
   Register,
-  Check
+  Check,
 } from "../Controllers/UserController.js";
+import { authLimiter } from "../../Middleware/rateLimiter.js";
 
 const AuthRouter = express.Router();
 
 // Register
-AuthRouter.post("/register", Register);
+AuthRouter.post("/register", authLimiter, Register);
 
 // Login
-AuthRouter.post("/login", Login);
+AuthRouter.post("/login", authLimiter, Login);
 
 // Logout
-AuthRouter.post("/logout", AuthMiddlewarefxn, Logout);
+AuthRouter.post("/logout", authMiddleware, Logout);
 
 // check
-AuthRouter.post("/check", AuthMiddlewarefxn, Check);
+AuthRouter.get("/check", authMiddleware, Check);
 
 // adminRegister
 AuthRouter.post("/admin/register", adminMiddleware, adminRegister);
