@@ -11,6 +11,7 @@ import {
   codeExecutionLimiter,
   submissionLimiter,
 } from "../../Middleware/rateLimiter.js";
+import adminMiddleware from "../../Middleware/adminMiddleware.js";
 
 const submitRouter = express.Router();
 
@@ -89,6 +90,6 @@ submitRouter.get("/status/:submissionId", authMiddleware, async (req, res) => {
 // =============================================
 
 // Check queue health and status
-submitRouter.get("/queue/health", authMiddleware, getQueueHealth);
+submitRouter.get("/queue/health", adminMiddleware, getQueueHealth);
 
 export default submitRouter;

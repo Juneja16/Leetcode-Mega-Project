@@ -56,15 +56,16 @@ export default configureCors;
 /* 
 CORS SETUP FOR PRODUCtion 
 
-1. Any Frontend Client like POSTMAN, thunderclient,curl Req, Mobile APp  are allowed i.e no Origin Header
+1. Any Frontend Client like POSTMAN, ThunderClient,curl Req, Mobile APp  are allowed i.e no Origin Header
 Generally used in testing purpose 
 
 2.then if Origin is present then it should be present in Allowed Origins Array else not allowed
 
-CORS SETUP FOR PRODUCtion 
-1. if Orgin :true  setup then all with origins headers are allowed thats ok for development mostly
+CORS SETUP FOR Development 
+1. if Origin :true  setup then all with origins headers are allowed thats ok for development mostly
 2. but we can  specifically tell which one to allowed so that only from our locally ,frequently used ports
 can access that 
  
 
+credentials :true Always Confirm the cookie Token and can consider Cookie/ Token 
 */

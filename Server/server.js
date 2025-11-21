@@ -42,8 +42,8 @@ const initalizeConnection = async () => {
       console.log("📊 Rate Limits:");
       console.log("   - General: 100 requests/15min");
       console.log("   - Auth: 5 attempts/15min");
-      console.log("   - Code Execution: 10/minute");
-      console.log("   - Submissions: 15/minute");
+      console.log("   - Code Execution: 10 requests/minute");
+      console.log("   - Submissions: 15requests /minute");
     });
   } catch (err) {
     console.log("Error: " + err);

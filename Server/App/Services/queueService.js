@@ -3,6 +3,8 @@ import { submitBatch, submitToken } from "../Utils/problemUtility.js";
 import Submission from "../Models/Submission.js";
 import User from "../Models/User.js";
 
+console.log("Running Fine");
+
 // =============================================
 // QUEUE CONFIGURATION
 // =============================================
@@ -239,4 +241,4 @@ export const getQueueStatus = async () => {
   };
 };
 
-export { codeExecutionQueue };
+export default codeExecutionQueue;

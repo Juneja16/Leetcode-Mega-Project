@@ -1,7 +1,7 @@
 import Submission from "../Models/Submission.js";
 import Problem from "../Models/Problem.js";
 import { getLanguageById } from "../Utils/problemUtility.js";
-import { codeExecutionQueue } from "../Services/queueService.js";
+import codeExecutionQueue from "../Services/queueService.js";
 
 // =============================================
 // SUBMIT CODE - WITH QUEUE

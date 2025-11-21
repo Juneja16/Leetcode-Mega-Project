@@ -98,7 +98,7 @@ const adminMiddleware = async (req, res, next) => {
 
     // 8) Attach user to request (standard)
     const { password, ...safeUser } = userFound;
-    req.kk = safeUser;
+    req.user = safeUser;
 
     // 9) Proceed
     return next();

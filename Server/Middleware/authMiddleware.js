@@ -73,7 +73,7 @@ const authMiddleware = async (req, res, next) => {
     // 5) Load user from DB (exclude password)
     let userFound;
     try {
-      userFound = await User.findById(userId).select("-password").lean();
+      userFound = await User.findById(userId).select("-password");
     } catch (dbErr) {
       console.error(
         "Database error while fetching user in authMiddleware:",
