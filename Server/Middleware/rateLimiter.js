@@ -96,7 +96,7 @@ const getRetryAfterSeconds = (req) => {
 // 👇 GENERAL API LIMIT - For all routes
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes window
-  max: 100, // Max 100 requests per user/key/IP per 15 minutes
+  max: 1000, // Max 100 requests per user/key/IP per 15 minutes
   message: {
     error: "Too many requests",
     message: "Please try again after 15 minutes",
@@ -136,7 +136,7 @@ const codeExecutionLimiter = rateLimit({
 // 👇 AUTHENTICATION LIMIT - Prevent brute force attacks
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Max 5 login attempts per user/IP per 15 minutes
+  max: 25, // Max 5 login attempts per user/IP per 15 minutes
   message: {
     error: "Too many authentication attempts",
     message: "Please try again after 15 minutes",

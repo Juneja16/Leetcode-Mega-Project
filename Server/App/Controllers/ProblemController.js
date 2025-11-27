@@ -230,10 +230,9 @@ const getProblemById = async (req, res) => {
         .status(400)
         .json({ message: "Problem id is required in params" });
     }
-    const problem = await Problem.findById(
-      id,
-      "title description difficultyLevel tags"
-    ).lean();
+    const problem = await Problem.findById(id)
+      .select(" -hiddenTestCases -problemCreator ")
+      .lean();
 
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });

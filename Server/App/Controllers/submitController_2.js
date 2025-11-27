@@ -240,6 +240,8 @@ const checkJobStatus = async (req, res) => {
           status: result.status,
           testCasesPassed: result.testCasesPassed,
           testCasesTotal: result.totalTestCases,
+          runTime: result.runTime,
+          memoryUsed: result.memoryUsed,
         };
       }
     } else if (jobState === "failed") {

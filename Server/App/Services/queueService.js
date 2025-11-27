@@ -20,7 +20,7 @@ const codeExecutionQueue = new Queue("code execution", {
   // Rate limiting to prevent Judge0 API abuse
   limiter: {
     max: 20, // Max 20 jobs per second
-    duration: 1000,
+    duration: 1000, // in milliseconds
   },
   // Default job options
   defaultJobOptions: {
